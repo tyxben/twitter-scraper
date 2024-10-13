@@ -10,6 +10,14 @@ type (
 		Name     string
 	}
 
+	// Url represents a URL with display, expanded, and index data.
+	Url struct {
+		DisplayURL  string `json:"display_url"`
+		ExpandedURL string `json:"expanded_url"`
+		URL         string `json:"url"`
+		Indices     []int  `json:"indices"`
+	}
+
 	// Photo type.
 	Photo struct {
 		ID  string
@@ -105,10 +113,7 @@ type (
 				Type          string `json:"type"`
 				URL           string `json:"url"`
 			} `json:"media"`
-			URLs []struct {
-				ExpandedURL string `json:"expanded_url"`
-				URL         string `json:"url"`
-			} `json:"urls"`
+			URLs         []Url `json:"urls"`
 			UserMentions []struct {
 				IDStr      string `json:"id_str"`
 				Name       string `json:"name"`
@@ -195,15 +200,10 @@ type (
 		Description         string `json:"description"`
 		Entities            struct {
 			Description struct {
-				Urls []interface{} `json:"urls"`
+				Urls []Url `json:"urls"`
 			} `json:"description"`
 			URL struct {
-				Urls []struct {
-					DisplayURL  string `json:"display_url"`
-					ExpandedURL string `json:"expanded_url"`
-					URL         string `json:"url"`
-					Indices     []int  `json:"indices"`
-				} `json:"urls"`
+				Urls []Url `json:"urls"`
 			} `json:"url"`
 		} `json:"entities"`
 		FastFollowersCount      int           `json:"fast_followers_count"`

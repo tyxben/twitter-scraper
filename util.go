@@ -157,6 +157,7 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 	if tweetID == "" {
 		return nil
 	}
+	text := expandURLs(tweet.FullText, tweet.Entities.URLs)
 	username := user.ScreenName
 	name := user.Name
 	tw := &Tweet{
@@ -167,7 +168,7 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 		PermanentURL:   fmt.Sprintf("https://twitter.com/%s/status/%s", username, tweetID),
 		Replies:        tweet.ReplyCount,
 		Retweets:       tweet.RetweetCount,
-		Text:           tweet.FullText,
+		Text:           text,
 		UserID:         tweet.UserIDStr,
 		Username:       username,
 	}
@@ -379,12 +380,21 @@ func parseProfile(user legacyUser) Profile {
 	return profile
 }
 
+func expandURLs(text string, urls []Url) string {
+	expandedText := text
+	for _, url := range urls {
+		expandedText = strings.ReplaceAll(expandedText, url.URL, url.ExpandedURL)
+	}
+	return expandedText
+}
+
 func parseProfileV2(user userResult) Profile {
 	u := user.Legacy
+	description := expandURLs(u.Description, u.Entities.Description.Urls)
 	profile := Profile{
 		Avatar:         u.ProfileImageURLHTTPS,
 		Banner:         u.ProfileBannerURL,
-		Biography:      u.Description,
+		Biography:      description,
 		FollowersCount: u.FollowersCount,
 		FollowingCount: u.FavouritesCount,
 		FriendsCount:   u.FriendsCount,
