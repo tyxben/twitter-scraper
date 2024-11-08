@@ -56,6 +56,7 @@ func (result *result) parse() *Tweet {
 	if result.QuotedStatusResult.Result != nil {
 		tw.QuotedStatus = result.QuotedStatusResult.Result.parse()
 	}
+	tw.HTML = expandMediaURLs(tw.HTML, legacy.ExtendedEntities.Media)
 	return tw
 }
 

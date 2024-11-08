@@ -99,6 +99,25 @@ type (
 		GIFs      []GIF
 	}
 
+	ExtendedMedia struct {
+		IDStr                    string `json:"id_str"`
+		MediaURLHttps            string `json:"media_url_https"`
+		ExtSensitiveMediaWarning struct {
+			AdultContent    bool `json:"adult_content"`
+			GraphicViolence bool `json:"graphic_violence"`
+			Other           bool `json:"other"`
+		} `json:"ext_sensitive_media_warning"`
+		Type      string `json:"type"`
+		URL       string `json:"url"`
+		VideoInfo struct {
+			Variants []struct {
+				Type    string `json:"content_type"`
+				Bitrate int    `json:"bitrate"`
+				URL     string `json:"url"`
+			} `json:"variants"`
+		} `json:"video_info"`
+	}
+
 	legacyTweet struct {
 		ConversationIDStr string `json:"conversation_id_str"`
 		CreatedAt         string `json:"created_at"`
@@ -121,24 +140,7 @@ type (
 			} `json:"user_mentions"`
 		} `json:"entities"`
 		ExtendedEntities struct {
-			Media []struct {
-				IDStr                    string `json:"id_str"`
-				MediaURLHttps            string `json:"media_url_https"`
-				ExtSensitiveMediaWarning struct {
-					AdultContent    bool `json:"adult_content"`
-					GraphicViolence bool `json:"graphic_violence"`
-					Other           bool `json:"other"`
-				} `json:"ext_sensitive_media_warning"`
-				Type      string `json:"type"`
-				URL       string `json:"url"`
-				VideoInfo struct {
-					Variants []struct {
-						Type    string `json:"content_type"`
-						Bitrate int    `json:"bitrate"`
-						URL     string `json:"url"`
-					} `json:"variants"`
-				} `json:"video_info"`
-			} `json:"media"`
+			Media []ExtendedMedia `json:"media"`
 		} `json:"extended_entities"`
 		IDStr                 string `json:"id_str"`
 		InReplyToStatusIDStr  string `json:"in_reply_to_status_id_str"`

@@ -388,6 +388,14 @@ func expandURLs(text string, urls []Url) string {
 	return expandedText
 }
 
+func expandMediaURLs(text string, extendedMediaEntities []ExtendedMedia) string {
+	expandedText := text
+	for _, entity := range extendedMediaEntities {
+		expandedText = strings.ReplaceAll(expandedText, entity.URL, entity.MediaURLHttps)
+	}
+	return expandedText
+}
+
 func parseProfileV2(user userResult) Profile {
 	u := user.Legacy
 	description := expandURLs(u.Description, u.Entities.Description.Urls)
