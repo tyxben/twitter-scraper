@@ -157,7 +157,7 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 	if tweetID == "" {
 		return nil
 	}
-	text := expandURLs(tweet.FullText, tweet.Entities.URLs)
+	text := expandURLs(tweet.FullText, tweet.Entities.URLs, tweet.ExtendedEntities.Media)
 	username := user.ScreenName
 	name := user.Name
 	tw := &Tweet{
@@ -380,25 +380,21 @@ func parseProfile(user legacyUser) Profile {
 	return profile
 }
 
-func expandURLs(text string, urls []Url) string {
+func expandURLs(text string, urls []Url, extendedMediaEntities []ExtendedMedia) string {
 	expandedText := text
 	for _, url := range urls {
 		expandedText = strings.ReplaceAll(expandedText, url.URL, url.ExpandedURL)
 	}
-	return expandedText
-}
-
-func expandMediaURLs(text string, extendedMediaEntities []ExtendedMedia) string {
-	expandedText := text
 	for _, entity := range extendedMediaEntities {
 		expandedText = strings.ReplaceAll(expandedText, entity.URL, entity.MediaURLHttps)
 	}
+
 	return expandedText
 }
 
 func parseProfileV2(user userResult) Profile {
 	u := user.Legacy
-	description := expandURLs(u.Description, u.Entities.Description.Urls)
+	description := expandURLs(u.Description, u.Entities.Description.Urls, []ExtendedMedia{})
 	profile := Profile{
 		Avatar:         u.ProfileImageURLHTTPS,
 		Banner:         u.ProfileBannerURL,
