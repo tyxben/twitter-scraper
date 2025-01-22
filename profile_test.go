@@ -150,7 +150,7 @@ func TestGetProfileByID(t *testing.T) {
 }
 
 func TestGetUserIDByScreenName(t *testing.T) {
-	userID, err := testScraper.GetUserIDByScreenName("Twitter")
+	userID, err := testScraper.GetUserIDByScreenName("X")
 	if err != nil {
 		t.Errorf("getUserByScreenName() error = %v", err)
 	}
