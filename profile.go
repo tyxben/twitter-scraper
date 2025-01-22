@@ -14,29 +14,36 @@ var cacheIDs sync.Map
 
 // Profile of twitter user.
 type Profile struct {
-	Avatar         string
-	Banner         string
-	Biography      string
-	Birthday       string
-	FollowersCount int
-	FollowingCount int
-	FriendsCount   int
-	IsPrivate      bool
-	IsVerified     bool
-	Joined         *time.Time
-	LikesCount     int
-	ListedCount    int
-	Location       string
-	Name           string
-	PinnedTweetIDs []string
-	TweetsCount    int
-	URL            string
-	UserID         string
-	Username       string
-	Website        string
-	Sensitive      bool
-	Following      bool
-	FollowedBy     bool
+	Avatar               string
+	Banner               string
+	Biography            string
+	Birthday             string
+	FollowersCount       int
+	FollowingCount       int
+	FriendsCount         int
+	IsPrivate            bool
+	IsVerified           bool
+	IsBlueVerified       bool
+	Joined               *time.Time
+	LikesCount           int
+	ListedCount          int
+	Location             string
+	Name                 string
+	PinnedTweetIDs       []string
+	TweetsCount          int
+	URL                  string
+	UserID               string
+	Username             string
+	Website              string
+	Sensitive            bool
+	Following            bool
+	FollowedBy           bool
+	MediaCount           int
+	FastFollowersCount   int
+	NormalFollowersCount int
+	ProfileImageShape    string
+	HasGraduatedAccess   bool
+	CanHighlightTweets   bool
 }
 
 type user struct {
