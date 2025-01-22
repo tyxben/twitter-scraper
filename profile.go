@@ -50,9 +50,10 @@ type user struct {
 	Data struct {
 		User struct {
 			Result struct {
-				RestID  string     `json:"rest_id"`
-				Legacy  legacyUser `json:"legacy"`
-				Message string     `json:"message"`
+				RestID         string     `json:"rest_id"`
+				Legacy         legacyUser `json:"legacy"`
+				Message        string     `json:"message"`
+				IsBlueVerified bool       `json:"is_blue_verified"`
 			} `json:"result"`
 		} `json:"user"`
 	} `json:"data"`
@@ -118,7 +119,9 @@ func (s *Scraper) GetProfile(username string) (Profile, error) {
 		return Profile{}, fmt.Errorf("either @%s does not exist or is private", username)
 	}
 
-	return parseProfile(jsn.Data.User.Result.Legacy), nil
+	profile := parseProfile(jsn.Data.User.Result.Legacy)
+	profile.IsBlueVerified = jsn.Data.User.Result.IsBlueVerified
+	return profile, nil
 }
 
 func (s *Scraper) GetProfileByID(userID string) (Profile, error) {
@@ -175,7 +178,9 @@ func (s *Scraper) GetProfileByID(userID string) (Profile, error) {
 		return Profile{}, fmt.Errorf("either @%s does not exist or is private", userID)
 	}
 
-	return parseProfile(jsn.Data.User.Result.Legacy), nil
+	profile := parseProfile(jsn.Data.User.Result.Legacy)
+	profile.IsBlueVerified = jsn.Data.User.Result.IsBlueVerified
+	return profile, nil
 }
 
 // GetUserIDByScreenName from API
