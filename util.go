@@ -308,7 +308,7 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 	tw.HTML = reTwitterURL.ReplaceAllStringFunc(tw.HTML, func(tco string) string {
 		for _, entity := range tweet.Entities.URLs {
 			if tco == entity.URL {
-				return fmt.Sprintf(`<a href="%s">%s</a>`, entity.ExpandedURL, tco)
+				return fmt.Sprintf(`<a href="%s">%s</a>`, entity.ExpandedURL, entity.ExpandedURL)
 			}
 		}
 		for _, entity := range tweet.ExtendedEntities.Media {
