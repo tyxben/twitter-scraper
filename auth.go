@@ -188,10 +188,8 @@ func (s *Scraper) Login(credentials ...string) error {
 		confirmation = credentials[2]
 	}
 
-	// when use bearerToken2 make a error for
-	if s.bearerToken == "" {
-		s.SetBearerToken(bearerToken1)
-	} 
+	// when use bearerToken2 make a error 
+	s.SetBearerToken(bearerToken1)
 
 	err := s.GetGuestToken()
 	if err != nil {
