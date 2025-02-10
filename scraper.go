@@ -65,7 +65,7 @@ func New() *Scraper {
 	}
 }
 
-func (s *Scraper) setBearerToken(token string) {
+func (s *Scraper) SetBearerToken(token string) {
 	s.bearerToken = token
 	s.guestToken = ""
 }

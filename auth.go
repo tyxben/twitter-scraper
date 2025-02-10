@@ -26,6 +26,7 @@ const (
 	bearerToken1 = "AAAAAAAAAAAAAAAAAAAAAFQODgEAAAAAVHTp76lzh3rFzcHbmHVvQxYYpTw%3DckAlMINMjmCwxUcaXbAN4XqJVdgMJaHqNOFgPMK0zN1qLqLQCF"
 	// Requires x-client-transaction-id header in auth.
 	bearerToken2      = "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
+	UserBearerToken   = ""
 	appConsumerKey    = "3nVuSoBZnx6U4vzUxf5w"
 	appConsumerSecret = "Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys"
 )
@@ -150,7 +151,7 @@ func (s *Scraper) getFlowToken(data map[string]interface{}) (string, error) {
 // IsLoggedIn check if scraper logged in
 func (s *Scraper) IsLoggedIn() bool {
 	s.isLogged = true
-	s.setBearerToken(bearerToken1)
+	s.SetBearerToken(bearerToken1)
 	req, err := http.NewRequest("GET", "https://api.twitter.com/1.1/account/verify_credentials.json", nil)
 	if err != nil {
 		return false
@@ -159,7 +160,7 @@ func (s *Scraper) IsLoggedIn() bool {
 	err = s.RequestAPI(req, &verify)
 	if err != nil || verify.Errors != nil {
 		s.isLogged = false
-		s.setBearerToken(bearerToken)
+		s.SetBearerToken(bearerToken)
 	} else {
 		s.isLogged = true
 	}
@@ -187,7 +188,10 @@ func (s *Scraper) Login(credentials ...string) error {
 		confirmation = credentials[2]
 	}
 
-	s.setBearerToken(bearerToken2)
+	// when use bearerToken2 make a error for
+	if s.bearerToken == "" {
+		s.SetBearerToken(bearerToken1)
+	} 
 
 	err := s.GetGuestToken()
 	if err != nil {
@@ -328,7 +332,7 @@ func (s *Scraper) LoginOpenAccount() (OpenAccount, error) {
 	if err != nil {
 		return OpenAccount{}, err
 	}
-	s.setBearerToken(accessToken)
+	s.SetBearerToken(accessToken)
 
 	err = s.GetGuestToken()
 	if err != nil {
@@ -406,7 +410,7 @@ func (s *Scraper) Logout() error {
 	s.oAuthToken = ""
 	s.oAuthSecret = ""
 	s.client.Jar, _ = cookiejar.New(nil)
-	s.setBearerToken(bearerToken)
+	s.SetBearerToken(bearerToken)
 	return nil
 }
 
