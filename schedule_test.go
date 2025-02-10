@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	twitterscraper "github.com/imperatrona/twitter-scraper"
+	twitterscraper "github.com/tyxben/twitter-scraper"
 )
 
 func TestFetchScheduledTweets(t *testing.T) {
